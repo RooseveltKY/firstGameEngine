@@ -1,0 +1,66 @@
+<html>
+  <head>
+    <script src= "p5.min.js"></script>
+    <style>
+      body {
+        margin= 0;
+        padding= 0;
+        overflow: hidden;
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+    //Size of the width and height of the window
+    var w= window.innerWidth;
+    var h= window.innerHeight;
+    //Position of the "box" is starting from half the width and the height (the center)
+    var posX= w/2;
+    var posY= h/2;
+    
+      function setup() {
+        createCanvas(w,h);
+      }
+      
+      function draw() {
+        //Give it a background so that it does not draw, just move around like Pac-man
+        background(255);
+        //Color of the box
+        fill(color("#fabfad"));
+        //Border thickness
+        strokeWeight(0);
+        //rect(position of the box, size of the box, rounding the corners)
+        rect(posX,posY,100,100,20);
+        
+        //keyIsDown() is when you keep pressing the button down
+        if ((keyIsDown(87)) && (posY>0)){
+          //The position of the box is greater than 0, the top of the page
+          //10 is the speed of the box moving
+          posY-=10;
+          //Going up
+          
+        }
+        
+        if ((keyIsDown(83)) && (posY<h-100)){
+          //Stop the box when it is the height minus the size of the box (which is 100)
+          posY+=10;
+          //Going down
+          
+        }
+        
+        if ((keyIsDown(65)) && (posX>0)){
+          posX-=10;
+          //Going right
+        }
+        
+        if ((keyIsDown(68)) && (posX<w-100)){
+          posX+=10;
+          //Going left
+        }
+      }
+      
+      
+      
+    </script>
+  </body>
+</html>
