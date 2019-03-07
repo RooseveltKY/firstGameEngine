@@ -1,0 +1,207 @@
+<html>
+  <head>
+    <script src= "p5.min.js"></script>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        /*background-color: #270113 ;*/
+        background-image: url("stars.jpg");
+        background-size: cover;
+      }
+      #title {
+        text-align: center;
+        font-size: 50px;
+        font-family: "Courier New", Courier, monospace;
+        color: white;
+      }
+      #subtext {
+        text-align: center;
+        font-size: 20px;
+        font-family: "Courier New", Courier, monospace;
+        color: white;
+      }
+      #output {
+        text-align: center;
+        font-size: 25px;
+        font-family: "Courier New", Courier, monospace;
+        color: white;
+      }
+      
+      #loser{
+        text-align: center;
+        font-size: 50px;
+        font-family: "Courier New", Courier, monospace;
+        color: red;
+      }
+      
+      
+    </style>
+  </head>
+  
+  <body>
+  
+    <h1 id= "title">PLAY TAG!</h1>
+    <h2 id= "subtext">
+      
+      Player 1 must overtake Player 2</h2>
+    <h1 id= "loser"></h1>
+    <h1 id= "output"></h1>
+
+    <script>
+    //Goals: Create boundaries, background changes when balls overlap, and there is a countdown of lives
+    
+      var w= window.innerWidth;
+      var h= window.innerHeight;
+      var ball= new ball();
+      var ball2= new ball2();
+      
+      var blocker= new blocker();
+      var blocker2= new blocker2();
+      var blocker3= new blocker3();
+    
+      var d;
+      var green_dist;
+      var lives= 3;
+      
+      var img;
+      function setup() {
+        createCanvas(w,h);
+
+      }
+      
+      function draw() {
+        clear();
+        background("rgba(255,255,255,0)");
+        //image(img, 0,0);
+        ball.show();
+        ball.move();
+        
+        ball2.show();
+        ball2.move();
+        ball2.kill();
+        
+        blocker.show();
+        blocker2.show();
+        blocker3.show();
+
+        blocker.block1();
+
+      }
+      
+      
+      function ball() {
+        this.x= 100;
+        this.y= 100;
+        
+        //"this" means the ball, and the position is (100,100)
+        this.show= function() {
+          fill(color('#ffffff'));
+          strokeWeight(0);
+          ellipse(this.x, this.y, 100, 100);
+          document.getElementById('output').innerHTML= "Lives: "+ lives;
+        };
+        
+        this.move= function() {
+          if ((keyIsDown(68)) && (this.x<w-50)) { //Right Arrow D
+            this.x +=10;
+          }
+          if ((keyIsDown(65)) && (this.x>50)) { //Left Arrow A
+            this.x -= 10;
+          }
+          if ((keyIsDown(87)) && (this.y>50)) { //Up Arrow W
+            this.y -= 10;
+          }
+          if ((keyIsDown(83)) && (this.y<h-100)) { //Down Arrow S
+            this.y += 10;
+          }
+        }
+      }
+      
+      function ball2() {
+        this.x= 1500;
+        this.y= 100;
+        
+        this.show= function() {
+          fill(color('#ae143a'));
+          strokeWeight(0);
+          ellipse(this.x, this.y, 100, 100);
+        };
+        
+        this.move= function() {
+          if ((keyIsDown(76)) && (this.x<w-50)) { //Right Arrow L
+            this.x +=10;
+          }
+          if ((keyIsDown(74)) && (this.x>50)) { //Left Arrow J
+            this.x -= 10;
+          }
+          if ((keyIsDown(73)) && (this.y>50)) { //Up Arrow I
+            this.y -= 10;
+          }
+          if ((keyIsDown(75)) && (this.y<h-250)) { //Down Arrow K
+            this.y += 10;
+          }
+        }
+
+        this.kill= function() {
+          d= dist(this.x, this.y, ball.x, ball.y);
+          if (d<50) {
+            background("#c30c09");
+            lives--;
+            document.getElementById('output').innerHTML= "Lives: "+ lives;
+            window.alert("You Lost a Life");
+            this.x = 1000;
+            this.y = 500;
+            ball.x = 75;
+            ball.y = 75;
+            
+            loop();
+          }
+          if (lives==0) {
+            document.getElementById('loser').innerHTML= "GAME OVER";
+            noLoop();
+          }
+        
+        }
+        
+      }
+      ////////////EXPERIMENTAL START///////////////////////////
+      function blocker() {
+        this.x = 500;
+        this.y = 200;
+        this.show= function() {
+          fill(color('green'));
+          strokeWeight(0);
+          rectMode(CENTER);
+          rect(this.x,this.y,75,75);
+        }
+        this.block1 = function() {
+          var green_dist = dist(this.x,this.y,ball.x,ball.y);
+          console.log(green_dist);
+          if (green_dist < 100) {
+            this.kill;
+            noLoop(); //Change me later to match the lose a life//
+          }
+        }
+      }
+      ////////////EXPERIMENTAL END///////////////////////////
+      function blocker2() {
+        this.show= function() {
+          fill(color("#c30c09"));
+          strokeWeight(0);
+          rect(1050,75,200,200);
+        }
+      }
+      
+      function blocker3() {
+        this.show= function() {
+          fill(color("#c30c09"));
+          strokeWeight(0);
+          rect(100,400,150,150);
+        }
+      }
+      
+    </script>
+  </body>
+</html>
